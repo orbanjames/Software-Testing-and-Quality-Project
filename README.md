@@ -1,31 +1,33 @@
-Games Management App
-This is a project work for the course title: SOFTWARE PROCESS (M09240) on Master studies 
+WORLD IN SERBIA STUDENT MANAGEMENT SYSTEM
+
+This is a project work for the course title: SOFTWARE TESTING AND QUALITY on Master studies 
 submitted to the Department of Software Engineering and Computer Science,
 Faculty of Organisational Sciences, UNIVERSITY OF BELGRADE, SERBIA. 
-It is my first project experience fully implemented as a window 
-application created with java 11, javaFX technology and MySQL Database
+It is A PROJECT WORK fully implemented as a SpringBoot-React-js web 
+application created with java 11, springboot-2 and spring framework-5 and postgreSQL 
+Database in the backend and React-js open source framework at the front end
 
-Table of contents
+TABLE OF CONTENTS
 General info
 Technologies
 Detailed informations
+
+
 General info
 Games Management System is an application in which every user has their own game libraries. 
 He can add games to it, in which he played or wants to play. 
 The user adding the game to the library can evaluate it and write a comment.
 
-This application is available in three languages:
 
-English
-Serbian
-German
-Technologies
+TECHNOLOGIES
 Project is created with:
-
 Java 11
-JavaFX technology
-MySQL 8.0.29 database
+SpringBoot-2 
+spring framework-5
+React-js(frontend)
+postgreSQL 8.0.29 database
 OrmLite 6.1
+
 Detailed description of the application
 #DATABASE - CONNECTION PARAMETERS
 
