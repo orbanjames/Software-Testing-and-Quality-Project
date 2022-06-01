@@ -11,7 +11,9 @@ Database in the backend and React-js open source framework at the front end
 TABLE OF CONTENTS
 
 General info
+
 Technologies
+
 Detailed informations
 
 
