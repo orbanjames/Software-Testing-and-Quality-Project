@@ -27,12 +27,16 @@ The user adding the game to the library can evaluate it and write a comment.
 TECHNOLOGIES
 
 Project is created with:
-Java 11
+Java 11.
 SpringBoot-2 
 spring framework-5
 React-js(frontend)
 postgreSQL 8.0.29 database
-OrmLite 6.1
+
+
+Testing Frameworks
+
+Mokito Framework and JUnit-5.
 
 Detailed description of the application
 
