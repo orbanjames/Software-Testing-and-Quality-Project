@@ -4,7 +4,7 @@ This is a project work for the course title: SOFTWARE TESTING AND QUALITY on Mas
 submitted to the Department of Software Engineering and Computer Science,
 Faculty of Organisational Sciences, UNIVERSITY OF BELGRADE, SERBIA. 
 
-It is A PROJECT WORK fully implemented as a SpringBoot-React-js web 
+It is a project work fully implemented as a SpringBoot-React-js web 
 application created with java 11, springboot-2 and spring framework-5 and postgreSQL 
 Database in the backend and React-js open source framework at the front end
 
