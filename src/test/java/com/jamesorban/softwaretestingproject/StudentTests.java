@@ -1,10 +1,10 @@
 package com.jamesorban.softwaretestingproject;
 
-import com.jamesorban.softwaretestingproject.controllers.UniversityController;
-import com.jamesorban.softwaretestingproject.dao.UniversityRepository;
-import com.jamesorban.softwaretestingproject.model.University;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.jamesorban.softwaretestingproject.controllers.StudentController;
+import com.jamesorban.softwaretestingproject.dao.StudentRepository;
+import com.jamesorban.softwaretestingproject.model.Student;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class UniversityControllerTest {
+public class StudentTests {
 
     private MockMvc mockMvc;
 
@@ -41,70 +41,73 @@ public class UniversityControllerTest {
     ObjectWriter objectWriter = objectMapper.writer();
 
     @Mock
-    private UniversityRepository universityRepository;
+    private StudentRepository studentRepository;
 
     @InjectMocks
-    private UniversityController universityController;
+    private StudentController studentController;
 
 
 
-    University RECORD_1 = new University(1L, "University of Belgrade", "Belgrade","Belgrade, Serbia", 1);
-    University RECORD_2 = new University(2L, "University of Novi Sad", "Novi Sad","Novi Sad, Serbia", 2);
-    University RECORD_3 = new University(3L, "University of Nis", "Nis","Nis, Serbia", 3);
+    Student RECORD_1 = new Student(1L, "Aondowase", "Orban","orban@gmail.com", "Nigeria", "M.SC", "08189427322",2021);
+    Student RECORD_2 = new Student(2L, "James", "Aondowase","james@gmail.com", "Ghana", "PHD", "+253648653",2020);
+    Student RECORD_3 = new Student(3L, "Lilian", "Odon","lilian@gmail.com", "South Africa", "B.SC", "+45689427322",2018);
 
-    public University getRECORD_1() {
+    public Student getRECORD_1() {
         return RECORD_1;
     }
 
-    public void setRECORD_1(University RECORD_1) {
+    public void setRECORD_1(Student RECORD_1) {
         this.RECORD_1 = RECORD_1;
     }
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        this.mockMvc = MockMvcBuilders.standaloneSetup(universityController).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(studentController).build();
     }
 
     @Test
-    public void getAllUniversityRecords_success() throws Exception{
-        List<University> records = new ArrayList<>(Arrays.asList(RECORD_1, RECORD_2, RECORD_3));
-        Mockito.when(universityRepository.findAll()).thenReturn(records);
+    public void getAllStudentRecords_success() throws Exception{
+        List<Student> records = new ArrayList<>(Arrays.asList(RECORD_1, RECORD_2, RECORD_3));
+        Mockito.when(studentRepository.findAll()).thenReturn(records);
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/university")
+                        .get("/student")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$", hasSize(3)))
-                .andExpect(jsonPath("$[2].name", is("University of Nis")));
+                .andExpect(jsonPath("$[0].firstName", is("Aondowase")));
     }
 
 
     @Test
     public void getStudentById_success() throws Exception{
-        Mockito.when(universityRepository.findById(RECORD_1.getUniId())).thenReturn(java.util.Optional.of(RECORD_1));
+        Mockito.when(studentRepository.findById(RECORD_1.getStudentId())).thenReturn(java.util.Optional.of(RECORD_1));
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/university/1")
+                        .get("/student/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.name", is("University of Belgrade")));
+                .andExpect(jsonPath("$.firstName", is("Aondowase")));
     }
 
     @Test
     public void createRecord_success() throws Exception{
-        University record = University.builder()
-                .uniId(4L)
-                .name("Metropolitan University")
-                .location("Sports and Recreational Center, Milan Gale Muskatirovic")
-                .address("Tadeusa Koscuska 63, Beograd 11158")
-                .ranking(7)
+        Student record = Student.builder()
+                .studentId(4L)
+                .firstName("Gabriel")
+                .lastName("Isibor")
+                .email("gabriel@yahoo.com")
+                .country("Congo")
+                .programme("PhD")
+                .contact("+23468744537")
+                .yearAwarded(2022)
                 .build();
-        Mockito.when(universityRepository.save(record)).thenReturn(record);
+        Mockito.when(studentRepository.save(record)).thenReturn(record);
 
         String content = objectWriter.writeValueAsString(record);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/university")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/student")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(content);
@@ -112,40 +115,43 @@ public class UniversityControllerTest {
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.address", is("Tadeusa Koscuska 63, Beograd 11158")));
+                .andExpect(jsonPath("$.email", is("gabriel@yahoo.com")));
     }
 
     @Test
-    public void updateUniversityRecord_success() throws Exception{
-        University updatedRecord = University.builder()
-                .uniId(3L)
-                .name("Updated University Name")
-                .location("Updated University Location")
-                .address("Updated University Address")
-                .ranking(3)
+    public void updateStudentRecord_success() throws Exception{
+        Student updatedRecord = Student.builder()
+                .studentId(2L)
+                .firstName("Updated Student FirstName")
+                .lastName("Updated Student Lastname")
+                .email("Updated Student Email")
+                .country("Updated Student Country")
+                .programme("Updated Student Programme")
+                .contact("Updated Student Contact")
+                .yearAwarded(2020)
                 .build();
 
-        Mockito.when(universityRepository.findById(RECORD_3.getUniId())).thenReturn(java.util.Optional.ofNullable(RECORD_3));
-        Mockito.when(universityRepository.save(updatedRecord)).thenReturn(updatedRecord);
+        Mockito.when(studentRepository.findById(RECORD_2.getStudentId())).thenReturn(java.util.Optional.ofNullable(RECORD_2));
+        Mockito.when(studentRepository.save(updatedRecord)).thenReturn(updatedRecord);
 
         String updatedContent = objectWriter.writeValueAsString(updatedRecord);
 
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/university")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.put("/student")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(updatedContent);
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))
-                .andExpect(jsonPath("$.location", is("Updated University Location")));
+                .andExpect(jsonPath("$.programme", is("Updated Student Programme")));
     }
 
     @Test
-    public void deleteUniversityById_success() throws Exception{
-        Mockito.when(universityRepository.findById(RECORD_2.getUniId())).thenReturn(Optional.of(RECORD_2));
+    public void deleteStudentById_success() throws Exception{
+        Mockito.when(studentRepository.findById(RECORD_3.getStudentId())).thenReturn(Optional.of(RECORD_3));
 
         mockMvc.perform(MockMvcRequestBuilders
-                        .delete("/university/2")
+                        .delete("/student/3")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
