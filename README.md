@@ -64,10 +64,12 @@ I used postgres pgAdmin to run a postgres Server on my localhost.
 
 To start the application backend, right-click on the softwareTestingProjectApplication 
 Class and then select the Run 'Application.Main()' and the backend will be started on 
-tomcat port 8080, then zou will need to start the frontend in order to access the web page. 
+tomcat port 8080, then you will need to start the frontend in order to access the web page. 
 You can find the appearance of the Home page and About page below. 
 
 ![](homepage.png)
+
+
 
 
 
