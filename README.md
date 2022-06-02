@@ -67,10 +67,14 @@ Class and then select the Run 'Application.Main()' and the backend will be start
 tomcat port 8080, then zou will need to start the frontend in order to access the web page. 
 You can find the appearance of the Home page and About page below. 
 
-[](homepage 3.png)
+![](homepage.png)
 
 
-[](about 3.png)
+
+![](about.png)
+
+
+
 
 
 
