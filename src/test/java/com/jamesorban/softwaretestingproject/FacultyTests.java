@@ -67,7 +67,7 @@ public class FacultyTests {
     }
 
     @Test
-    public void getAllFacultyRecords_success() throws Exception{
+    public void getAllFacultyRecords() throws Exception{
         List<Faculty> records = new ArrayList<>(Arrays.asList(RECORD_1, RECORD_2, RECORD_3));
         Mockito.when(facultyRepository.findAll()).thenReturn(records);
 
@@ -81,7 +81,7 @@ public class FacultyTests {
 
 
     @Test
-    public void getFacultyById_success() throws Exception{
+    public void getFacultyByIdFound() throws Exception{
         Mockito.when(facultyRepository.findById(RECORD_1.getFacultyId())).thenReturn(java.util.Optional.of(RECORD_1));
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty/1")
@@ -92,7 +92,19 @@ public class FacultyTests {
     }
 
     @Test
-    public void createRecord_success() throws Exception{
+    public void getFacultyByIdNotFound() throws Exception{
+        Mockito.when(facultyRepository.findByIdIfNotExist(RECORD_2.getFacultyId())).thenReturn(java.util.Optional.of(RECORD_2));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/faculty/8")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.name", is("Faculty of electrical electronics")));
+    }
+
+
+    @Test
+    public void createRecord() throws Exception{
         Faculty record = Faculty.builder()
                 .facultyId(4L)
                 .name("Faculty of Mathematics and Computer Sciences")
@@ -116,7 +128,7 @@ public class FacultyTests {
     }
 
     @Test
-    public void updateFacultyRecord_success() throws Exception{
+    public void updateFacultyRecord() throws Exception{
         Faculty updatedRecord = Faculty.builder()
                 .facultyId(2L)
                 .name("Updated Faculty Name")
@@ -141,7 +153,7 @@ public class FacultyTests {
     }
 
     @Test
-    public void deleteFacultyById_success() throws Exception{
+    public void deleteFacultyById() throws Exception{
         Mockito.when(facultyRepository.findById(RECORD_1.getFacultyId())).thenReturn(Optional.of(RECORD_1));
 
         mockMvc.perform(MockMvcRequestBuilders

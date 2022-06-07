@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -67,7 +68,7 @@ public class StudentTests {
     }
 
     @Test
-    public void getAllStudentRecords_success() throws Exception{
+    public void getAllStudentRecords() throws Exception{
         List<Student> records = new ArrayList<>(Arrays.asList(RECORD_1, RECORD_2, RECORD_3));
         Mockito.when(studentRepository.findAll()).thenReturn(records);
 
@@ -81,7 +82,7 @@ public class StudentTests {
 
 
     @Test
-    public void getStudentById_success() throws Exception{
+    public void getStudentByIdFound() throws Exception{
         Mockito.when(studentRepository.findById(RECORD_1.getStudentId())).thenReturn(java.util.Optional.of(RECORD_1));
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/student/1")
@@ -92,7 +93,19 @@ public class StudentTests {
     }
 
     @Test
-    public void createRecord_success() throws Exception{
+    public void getStudentByIdNotExist() throws Exception{
+        Mockito.when(studentRepository.findByIdNotExist(RECORD_3.getStudentId())).thenReturn(java.util.Optional.of(RECORD_3));
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/student/3")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", notNullValue()))
+                .andExpect(jsonPath("$.firstName", is("Lilian")));
+    }
+
+
+    @Test
+    public void createRecord() throws Exception{
         Student record = Student.builder()
                 .studentId(4L)
                 .firstName("Gabriel")
@@ -119,7 +132,7 @@ public class StudentTests {
     }
 
     @Test
-    public void updateStudentRecord_success() throws Exception{
+    public void updateStudentRecord() throws Exception{
         Student updatedRecord = Student.builder()
                 .studentId(2L)
                 .firstName("Updated Student FirstName")
@@ -147,7 +160,7 @@ public class StudentTests {
     }
 
     @Test
-    public void deleteStudentById_success() throws Exception{
+    public void deleteStudentById() throws Exception{
         Mockito.when(studentRepository.findById(RECORD_3.getStudentId())).thenReturn(Optional.of(RECORD_3));
 
         mockMvc.perform(MockMvcRequestBuilders

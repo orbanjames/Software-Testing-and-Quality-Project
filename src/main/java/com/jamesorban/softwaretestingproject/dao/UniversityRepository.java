@@ -4,4 +4,5 @@ import com.jamesorban.softwaretestingproject.model.University;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UniversityRepository extends JpaRepository<University, Long> {
+    Object findByIdNotExist(Long uniId);
 }
