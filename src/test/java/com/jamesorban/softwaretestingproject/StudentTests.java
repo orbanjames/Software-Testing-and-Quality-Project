@@ -82,7 +82,7 @@ public class StudentTests {
 
 
     @Test
-    public void getStudentByIdFound() throws Exception{
+    public void getStudentByIdExist() throws Exception{
         Mockito.when(studentRepository.findById(RECORD_1.getStudentId())).thenReturn(java.util.Optional.of(RECORD_1));
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/student/1")
@@ -96,7 +96,7 @@ public class StudentTests {
     public void getStudentByIdNotExist() throws Exception{
         Mockito.when(studentRepository.findByIdNotExist(RECORD_3.getStudentId())).thenReturn(java.util.Optional.of(RECORD_3));
         mockMvc.perform(MockMvcRequestBuilders
-                        .get("/student/3")
+                        .get("/student/4")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", notNullValue()))

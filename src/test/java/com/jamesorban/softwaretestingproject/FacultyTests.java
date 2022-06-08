@@ -81,7 +81,7 @@ public class FacultyTests {
 
 
     @Test
-    public void getFacultyByIdFound() throws Exception{
+    public void getFacultyByIdExist() throws Exception{
         Mockito.when(facultyRepository.findById(RECORD_1.getFacultyId())).thenReturn(java.util.Optional.of(RECORD_1));
         mockMvc.perform(MockMvcRequestBuilders
                         .get("/faculty/1")
